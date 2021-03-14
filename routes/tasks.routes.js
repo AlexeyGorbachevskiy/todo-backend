@@ -36,7 +36,7 @@ router.post('/', auth, async (req, res) => {
 // response: allTasks : Array
 router.put('/', auth, async (req, res) => {
     try {
-        if (!req.body.name && !req.body.description && !req.body.isCompeted) {
+        if (!req.body.name && !req.body.description && !req.body.isCompleted) {
             throw new Error();
         }
         await Task.findOne({id: req.body.taskId})
@@ -44,7 +44,7 @@ router.put('/', auth, async (req, res) => {
                 $set: {
                     name: req.body.name,
                     description: req.body.description,
-                    isCompeted: req.body.isCompleted ? req.body.isCompleted : false,
+                    isCompleted: req.body.isCompleted ? req.body.isCompleted : false,
                 }
             },);
         await Todo.findOne({id: req.body.todoId})
@@ -62,7 +62,7 @@ router.put('/', auth, async (req, res) => {
                     "$set": {
                         [`todos.$[outer].tasks.$[inner].name`]: req.body.name ? req.body.name : Task.findOne({id: req.body.taskId}).name,
                         [`todos.$[outer].tasks.$[inner].description`]: req.body.description ? req.body.description : Task.findOne({id: req.body.taskId}).description,
-                        [`todos.$[outer].tasks.$[inner].isCompleted`]: req.body.isCompleted ? req.body.isCompleted : Task.findOne({id: req.body.taskId}).isCompeted,
+                        [`todos.$[outer].tasks.$[inner].isCompleted`]: req.body.isCompleted ? req.body.isCompleted : Task.findOne({id: req.body.taskId}).isCompleted,
                     }
                 },
                 {
