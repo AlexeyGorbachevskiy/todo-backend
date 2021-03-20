@@ -8,6 +8,7 @@ app.use(express.json({ extended: true }));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/todos', require('./routes/todos.routes'));
 app.use('/api/tasks', require('./routes/tasks.routes'));
+app.use('/api/drag&Drop', require('./routes/dragDrop.routes'));
 
 const PORT = config.get('port') || 5000;
 
