@@ -10,7 +10,8 @@ app.use('/api/todos', require('./routes/todos.routes'));
 app.use('/api/tasks', require('./routes/tasks.routes'));
 app.use('/api/drag&Drop', require('./routes/dragDrop.routes'));
 
-const PORT = config.get('port') || 5000;
+// const PORT = config.get('port') || 5000;
+const PORT = process.env.PORT || 5000;
 
 async function start() {
     try {
