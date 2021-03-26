@@ -25,6 +25,7 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+app.options('*', cors())
 
 // const PORT = config.get('port') || 5000;
 const PORT = process.env.PORT || 5000;
