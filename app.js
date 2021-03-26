@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose')
+const cors = require("cors");
 
 const app = express();
 app.use(express.json({ extended: true }));
@@ -9,6 +10,7 @@ app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/todos', require('./routes/todos.routes'));
 app.use('/api/tasks', require('./routes/tasks.routes'));
 app.use('/api/drag&Drop', require('./routes/dragDrop.routes'));
+app.use(cors());
 
 // const PORT = config.get('port') || 5000;
 const PORT = process.env.PORT || 5000;
