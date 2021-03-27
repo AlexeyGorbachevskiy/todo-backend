@@ -17,7 +17,7 @@ router.put('/', auth, async (req, res) => {
             || (!req.body.targetTaskIndex && req.body.targetTaskIndex !== 0)
             || !req.body.name
         ) {
-            throw new Error('Request parameters are absent');
+            throw new Error('No request parameters');
         }
         await Task.findOneAndRemove({id: req.body.currentTaskId});
         await Todo.findOne({id: req.body.currentTodoId}).updateOne({}, {$pull: {'tasks': {id: req.body.currentTaskId}}});

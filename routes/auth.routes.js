@@ -12,7 +12,7 @@ router.post(
     '/register',
     [
         check('email', 'Incorrect email').isEmail(),
-        check('password', 'The minimum count of symbols should be equal 6')
+        check('password', 'The minimum length of password is 6')
             .isLength({ min: 6 })
     ],
     async (req, res) => {
@@ -29,7 +29,7 @@ router.post(
             const candidate = await User.findOne({ email });
 
             if (candidate) {
-                return res.status(400).json({ message: 'Such user is already exists' });
+                return res.status(400).json({ message: 'Such user already exists' });
             }
 
             const hashedPassword = await bcrypt.hash(password, 12);
