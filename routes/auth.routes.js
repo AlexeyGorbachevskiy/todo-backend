@@ -22,11 +22,11 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: 'Incorrect register data'
+                    message: errors[0] || 'Incorrect register data'
                 });
             }
             const {email, password} = req.body;
-            const candidate = await User.findOne({ email });
+            const candidate = await User.findOne({ email: email.toLowerCase() });
 
             if (candidate) {
                 return res.status(400).json({ message: 'Such user already exists' });
@@ -57,12 +57,12 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: 'Incorrect data when log in is occurred'
+                    message: errors[0] || 'Incorrect data when log in is occurred'
                 })
             }
 
             const {email, password} = req.body;
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email: email.toLowerCase() });
 
             if (!user) {
                 return res.status(400).json({ message: 'The user is not found' });
