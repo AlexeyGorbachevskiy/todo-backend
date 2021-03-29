@@ -26,7 +26,7 @@ router.post(
                 });
             }
             const {email, password} = req.body;
-            const candidate = await User.findOne({ email: email.toLowerCase() });
+            const candidate = await User.findOne({ email });
 
             if (candidate) {
                 return res.status(400).json({ message: 'Such user already exists' });
@@ -47,7 +47,7 @@ router.post(
 router.post(
     '/login',
     [
-        check('email', 'Type email').normalizeEmail().isEmail(),
+        check('email', 'Type email').isEmail(),
         check('password', 'Type password').exists()
     ],
     async (req, res) => {
@@ -62,7 +62,8 @@ router.post(
             }
 
             const {email, password} = req.body;
-            const user = await User.findOne({ email: email.toLowerCase() });
+            console.log(email)
+            const user = await User.findOne({ email });
 
             if (!user) {
                 return res.status(400).json({ message: 'The user is not found' });
