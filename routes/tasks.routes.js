@@ -24,7 +24,7 @@ router.post('/', auth, async (req, res) => {
                     'todos.$.tasks': task,
                 }
             },);
-        let allTasks = await Task.find({todoId: req.body.todoId});
+        let allTasks = await Task.find({todoId: req.body.todoId, owner: req.user.userId});
         res.status(201).json({allTasks});
     } catch (e) {
         console.log(e);
@@ -68,7 +68,7 @@ router.put('/', auth, async (req, res) => {
                 {
                     "arrayFilters": [{"outer.id": req.body.todoId}, {"inner.id": req.body.taskId}]
                 },);
-        let allTasks = await Task.find({todoId: req.body.todoId});
+        let allTasks = await Task.find({todoId: req.body.todoId, owner: req.user.userId});
         res.status(201).json({allTasks});
     } catch (e) {
         console.log(e);
@@ -85,7 +85,7 @@ router.delete('/', auth, async (req, res) => {
         await Todo.findOne({id: req.body.todoId}).updateOne({}, {$pull: {'tasks': {id: req.body.taskId}}});
         await User.findOne({_id: req.user.userId})
             .updateOne({'todos.id': req.body.todoId}, {$pull: {'todos.$.tasks': {id: req.body.taskId}}});
-        let remainingTasks = await Task.find({todoId: req.body.todoId});
+        let remainingTasks = await Task.find({todoId: req.body.todoId, owner: req.user.userId});
         res.status(201).json({remainingTasks});
     } catch (e) {
         console.log(e);

@@ -54,7 +54,7 @@ router.put('/', auth, async (req, res) => {
                     }
                 }
             },);
-        let allTodos = await Todo.find({});
+        let allTodos = await Todo.find({owner: req.user.userId});
 
 
         res.status(201).json({allTodos});

@@ -25,7 +25,7 @@ router.post('/', auth, async (req, res) => {
         });
         await todo.save();
         await User.findOne({_id: req.user.userId}).updateOne({$push: {todos: todo}},);
-        let allTodos = await Todo.find({})
+        let allTodos = await Todo.find({owner: req.user.userId})
         res.status(201).json({allTodos});
     } catch (e) {
         res.status(500).json({message: 'Error is occurred. Try again.'});
@@ -48,7 +48,7 @@ router.put('/', auth, async (req, res) => {
                     'todos.$.description': req.body.description ? req.body.description : Todo.findOne({id: req.body.todoId}).description,
                 }
             },);
-        let allTodos = await Todo.find({})
+        let allTodos = await Todo.find({owner: req.user.userId})
         res.status(201).json({allTodos});
     } catch (e) {
         res.status(500).json({message: 'Error is occurred. Try again.'});
@@ -63,7 +63,7 @@ router.delete('/', auth, async (req, res) => {
         await Task.deleteMany({todoId: req.body.todoId});
         await Todo.findOneAndRemove({id: req.body.todoId});
         await User.findOne({_id: req.user.userId}).updateOne({}, {$pull: {'todos': {id: req.body.todoId}}});
-        let remainingTodos = await Todo.find({});
+        let remainingTodos = await Todo.find({owner: req.user.userId});
         res.status(201).json({remainingTodos});
     } catch (e) {
         console.log(e);
